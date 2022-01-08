@@ -1,0 +1,143 @@
+Steps for installation of InfluxDB 2.0
+
+wget https://dl.influxdata.com/influxdb/releases/influxdb2-2.0.7-linux-amd64.tar.gz
+
+//To untar/unzip the tar file
+tar xvzf influxdb2-2.0.7-linux-amd64.tar.gz
+
+ls / to listout the files
+
+//To check the directory
+cd influxdb2-2.0.7-linux-amd64
+
+//To copy files 
+sudo cp ./{influx,influxd} /usr/local/bin/
+
+cd /usr/local/bin
+
+ls /to see the files
+
+//To run the influxdb
+./influxd
+
+http://ipaddress:8086/
+
+============================================================================================
+
+Steps for installation of Telegraf
+
+//To install Telegraf 
+wget https://dl.influxdata.com/telegraf/releases/telegraf-1.19.1_linux_amd64.tar.gz
+
+//To untar/unzip the tar file 
+tar xvzf telegraf-1.19.1_linux_amd64.tar.gz
+
+//To check directory 
+cd telegraf-1.19.1
+
+Here we will see the different folder in telegraf i.e,
+etc usr var
+
+cd var/
+
+ls 
+
+//output will be "log"
+
+cd ..
+cd usr/
+ls 
+
+//output is - "bin lib"
+
+cd bin/
+ls
+
+//output - "telegarf" (This file will be inside bin)  
+
+//configuration of telegraf
+
+./telegraf config > telegraf.conf
+ls 
+
+//output will show "telegraf.conf"
+
+cat telegraf.conf  (//to open)
+
+vi telegraf.conf (can write the command,but we will write through influxdb)
+
+//we cannot start the telegraf we need to move telegraf to different location
+
+cd /etc
+ls
+
+creating folder for telegarf
+mkdir telegraf
+
+cd ~ (to move to previous location)
+
+cd telegraf-1.19.1/usr/bin/
+
+mv telegraf.conf /etc/telegraf/
+
+//To run telegraf
+
+./telegraf
+
+//It shows failed 404 unauthorized because we havent made connection 
+
+//Go to influxdb website and login giving username password etc..
+click on quickstart--> telegraf--> create configuration --> system (select system as we are monitoring system)
+
+Again enter the name
+There will be a command to push the data into influxdb
+copy the command and run that in linux terminal
+1st one same as given 
+>>2nd command use "./----command" before the actual command 
+
+//Befor installing grafana we can also check in telegarf what is the data coming
+goto - explore (in telegraf)
+select cpu->usage sysstem->cpu total->ubuntu (we can see some graph)
+
+==============================================================================================
+
+//Steps for installation of Grafana
+
+//To insatll garfana
+
+wget https://dl.grafana.com/oss/release/grafana-8.0.6.linux-amd64.tar.gz
+
+//To untar/unzip the file
+
+tar -zxvf grafana-8.0.6.linux-amd64.tar.gz
+
+//To log into grafana
+
+cd grafana-8.0.6
+
+//In order to run 
+
+cd bin/
+
+//call grafana server
+
+./grafana-server web
+ 
+access garfana using Ip address/port adderss "localhost:3000"
+
+=============================================================================================
+To configure Influxdb data source
+goto - datasourse->add Influxdb->
+give url as-> http://localhost:8086
+change query lang
+query language to flux
+
+have to give "token and organization name"
+For token go to--> influxdb-->explore-->token-->choose admin token-->copy and paste in influxdb 
+
+Reference links: 
+
+https://docs.influxdata.com/telegraf/v1.19/introduction/installation/?t=RedHat+%26amp%3B+CentOS
+https://docs.influxdata.com/influxdb/v2.0/install/?t=Linux
+https://grafana.com/grafana/download?platform=linux
+https://docs.influxdata.com/influxdb/v2.0/query-data/get-started/
